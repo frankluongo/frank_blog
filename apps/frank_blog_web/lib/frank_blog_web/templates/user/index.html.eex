@@ -1,0 +1,6 @@
+<% IO.inspect(@user) %>
+
+<%= content_tag(
+    :h2,
+    "Weclome #{@user.username}!"
+) %>
