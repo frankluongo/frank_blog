@@ -6,8 +6,21 @@ defmodule FrankBlog.UserQueries do
 
   alias Bcrypt
   alias FrankBlog.User
-  alias FrankBlog.UserQueries
-  alias FrankBlog.{Repo, Events}
+  alias FrankBlog.Repo
+
+ def changeset(%User{} = user, attrs) do
+    user
+    |> cast(attrs, [:username, :encrypted_password])
+    |> unique_constraint(:username)
+    |> validate_required([:username, :encrypted_password])
+    |> update_change(:encrypted_password, &salt_password/1)
+  end
+
+  defp salt_password(password) do
+    hash = Bcrypt.hash_pwd_salt(password)
+    hash
+  end
+
 
   def get_by_username(username) when is_nil(username), do: nil
   def get_by_username(username) do
@@ -23,13 +36,13 @@ defmodule FrankBlog.UserQueries do
 
   def create_user(attrs \\ %{}) do
     %User{}
-    |> User.changeset(attrs)
+    |> changeset(attrs)
     |> Repo.insert()
   end
 
   def update_user(%User{} = user, attrs) do
     user
-    |> User.changeset(attrs)
+    |> changeset(attrs)
     |> Repo.update()
   end
 
@@ -38,10 +51,10 @@ defmodule FrankBlog.UserQueries do
   end
 
   def change_user(%User{} = user) do
-    User.changeset(user, %{})
+    changeset(user, %{})
   end
 
-  def verify_user(%{"encrypted_password" => encrypted_password, "username" => username} = user \\ %{}) do
+  def verify_user(%{"encrypted_password" => encrypted_password, "username" => username} \\ %{}) do
     valid_user = Repo.get_by(User, username: username)
     if valid_user do
       valid_password = Bcrypt.verify_pass(encrypted_password, valid_user.encrypted_password)

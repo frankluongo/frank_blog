@@ -4,6 +4,7 @@ defmodule FrankBlog.Article do
   schema "articles" do
     field :title, :string
     field :body, :string
+    field :slug, :string
 
     belongs_to :user, FrankBlog.User
 

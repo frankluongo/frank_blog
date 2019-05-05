@@ -11,13 +11,21 @@
     <header>
       <section class="container">
         <nav role="navigation">
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
+          <ul class="navigation-list">
+            <li>
+              <%= content_tag(:a, "Home", href: Routes.page_path(@conn, :index)) %>
+            </li>
+            <li>
+              <%= content_tag(:a, "Account", href: Routes.user_path(@conn, :index)) %>
+            </li>
+            <li>
+              <%= content_tag(:a, "Articles", href: Routes.article_path(@conn, :index)) %>
+            </li>
+            <li>
+              <%= content_tag(:a, "New Article", href: Routes.article_path(@conn, :new)) %>
+            </li>
           </ul>
         </nav>
-        <a href="http://phoenixframework.org/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
       </section>
     </header>
     <main role="main" class="container">

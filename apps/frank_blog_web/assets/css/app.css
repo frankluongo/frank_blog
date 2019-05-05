@@ -5,3 +5,15 @@
 p {
   line-height: 1.8;
 }
+
+.navigation-list {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+
+  margin: 0;
+  padding: 1rem;
+
+  list-style: none;
+}

@@ -1,15 +1,12 @@
 defmodule FrankBlogWeb.UserController do
   use FrankBlogWeb, :controller
 
-  alias FrankBlog.Article
   alias FrankBlog.User
   alias FrankBlog.UserQueries
 
   import Ecto.Changeset
 
   def create(conn, %{"user" => user_params}) do
-    IO.inspect(user_params)
-
     if UserQueries.verify_user(user_params) do
       {:ok, user} = UserQueries.verify_user(user_params)
         conn

@@ -17,8 +17,7 @@ defmodule FrankBlogWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/articles/new", PageController, :new
-    post "/articles", PageController, :create
+    resources "/articles", ArticleController, only: [:index, :create, :new]
     resources "/account", UserController, only: [:index, :create, :new]
   end
 
